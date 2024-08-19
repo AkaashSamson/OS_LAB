@@ -1,0 +1,53 @@
+Script started on Tuesday 30 July 2024 12:26:53 PM IST
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2gec@gec:~/Desktop/22B-CO-005/Os-exp2$ cd[K[Kmkdir testing
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2gec@gec:~/Desktop/22B-CO-005/Os-exp2$ cd testing
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ cat > test[K[K[K1
+ok bye
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ cat > t2
+k bye
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ diff t1 t2
+1c1
+< ok bye
+---
+> k bye
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ comm t1 t2
+	k bye
+ok bye
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ cat > t3
+k bye
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ comm t2 t3
+		k bye
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ diff t2t[K t3
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ cmp t2 t3
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ cmp t1 t2
+t1 t2 differ: byte 1, line 1
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ ls -l t2
+-rw-rw-r-- 1 gec gec 6 Jul 30 12:27 t2
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ chmod ug0[Ko[K[K+x
+chmod: missing operand after ‘u+x’
+Try 'chmod --help' for more information.
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ chmod t2 u+x
+chmod: invalid mode: ‘t2’
+Try 'chmod --help' for more information.
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ chmod u+x t2
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ ls -l t2
+-rwxrw-r-- 1 gec gec 6 Jul 30 12:27 [0m[01;32mt2[0m
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ chmod 653 t2
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ chmod 653 t2[4Pls -l[C[C[C
+-rw-r-x-wx 1 gec gec 6 Jul 30 12:27 [0m[01;32mt2[0m
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ cp t2 [K[K1 t3
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ cat < t3
+ok bye
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ cp t2 t3
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ cp t2 t3at <[C[C[C
+k bye
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ tree
+[01;34m.[00m
+|-- t1
+|-- [01;32mt2[00m
+`-- t3
+
+0 directories, 3 files
+]0;gec@gec: ~/Desktop/22B-CO-005/Os-exp2/testinggec@gec:~/Desktop/22B-CO-005/Os-exp2/testing$ exit
+
+Script done on Tuesday 30 July 2024 12:32:37 PM IST
