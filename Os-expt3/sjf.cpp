@@ -126,10 +126,23 @@ for(int i=0; i<n-1; i++){
 }
 }
 
+//display function for rq
+// void rqdisplay(){
+
+// int i;
+// if(isempty())
+//     cout<<"Queue is empty\n";
+// else{
+//     for(i=front;i!=rear;i=(i+1)%MAX)
+//         cout<<rq[i].no;
+//     cout<<rq[i].no<<"\n";
+// }
+// return;
+// }
 
 void sjf(int n, class process *p){
 sort_process(p,n);
-int i,tat=0,wt=0,t=0,tstmp[100],ind=0,ptr=0;
+int i,tat=0,wt=0,t=0,tstmp[100],ind=0,ptr=1;
 insert(p[0]);
 
 while(!isempty() || ptr<n){
@@ -137,16 +150,13 @@ while(!isempty() || ptr<n){
         insert(p[ptr++]);
     }
     i = del().no-1;
-    cout<<t<<" "<<p[i].bt<<" ";
     if(t<p[i].at){
         tstmp[ind++]=-1;
         t = p[i].at;
     }
-    tstmp[ind++]=i;
-    cout<<t<<" ";
+    tstmp[ind++]=i; 
     t += p[i].bt;
     p[i].ct = t;
-    cout<<p[i].ct<<"\n";
     p[i].tat = p[i].ct-p[i].at;
     p[i].wt = p[i].tat-p[i].bt;
     tat+=p[i].tat;
