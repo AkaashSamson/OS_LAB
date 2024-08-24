@@ -6,7 +6,7 @@ using namespace std;
 class process{
 
 public:
-    int no,bt,at,tat,wt,ct;
+    int no,bt,at,tat,wt,ct,rt;
 
 public:
     process(){
@@ -90,13 +90,13 @@ for(int i=0; i<n-1; i++){
 }
 }
 
-void sort_bt(class process *p, int n){
+void sort_rt(class process *p, int n){
 class process temp;
 int xchange=0;
-for(int i=0; i<n-1; i++){
+for(int i=front; i<n-1; i++){
 	xchange = 0;
-	for(int j=0; j<n-i-1; j++){
-		if(p[j].bt > p[j+1].bt){
+	for(int j=front; j<n-i-1; j++){
+		if(p[j].rt > p[j+1].rt){
 			temp = p[j];
 			p[j] = p[j+1];
 			p[j+1] = temp;
@@ -114,6 +114,7 @@ int xchange=0;
 for(int i=0; i<n-1; i++){
 	xchange = 0;
 	for(int j=0; j<n-i-1; j++){
+
 		if(p[j].no > p[j+1].no){
 			temp = p[j];
 			p[j] = p[j+1];
@@ -127,18 +128,18 @@ for(int i=0; i<n-1; i++){
 }
 
 //display function for rq
-// void rqdisplay(){
+void rqdisplay(){
 
-// int i;
-// if(isempty())
-//     cout<<"Queue is empty\n";
-// else{
-//     for(i=front;i!=rear;i=(i+1)%MAX)
-//         cout<<rq[i].no;
-//     cout<<rq[i].no<<"\n";
-// }
-// return;
-// }
+int i;
+if(isempty())
+    cout<<"Queue is empty\n";
+else{
+    for(i=front;i!=rear;i=(i+1)%MAX)
+        cout<<rq[i].no<<" ";
+    cout<<rq[i].no<<"\n";
+}
+return;
+}
 
 void sjf(int n, class process *p){
 process ps[n];
@@ -147,30 +148,58 @@ for(int i=0;i<n;i++){
 }
 sort_process(ps,n);
 
-int i,tat=0,wt=0,t=0,tstmp[100],ind=0,ptr=1;
+int i,tat=0,wt=0,t=0,tstmp[100],ind=0,ptr=1,pstmp[100];
 insert(ps[0]);
 
 while(!isempty() || ptr<n){
     if(isempty()){
         insert(ps[ptr++]);
     }
-    i = del().no-1;
+    i = rq[front].no-1;
     if(t<p[i].at){
+        pstmp[ind]=p[i].at;
         tstmp[ind++]=-1;
         t = p[i].at;
     }
-    tstmp[ind++]=i; 
-    t += p[i].bt;
-    p[i].ct = t;
-    p[i].tat = p[i].ct-p[i].at;
-    p[i].wt = p[i].tat-p[i].bt;
-    tat+=p[i].tat;
-    wt+=p[i].wt;
-    while(ptr<n && p[ptr].at<=t){
-        insert(ps[ptr]);
-        ptr++;
+    tstmp[ind]=i;
+
+    while(!isempty() && i==rq[front].no-1){
+        
+      if(ptr<n){
+        if (p[i].rt>ps[ptr].at-t){
+            p[i].rt-=ps[ptr].at-t;
+            t=ps[ptr].at;
+            //cout<<p[i].rt<<"\n";
+             while(ptr<n && ps[ptr].at<=t){
+             insert(ps[ptr]);
+             ptr++;
+            } 
+        }
+        else{
+            t+=p[i].rt;
+            p[i].rt=0;
+      }
+     }
+    else{
+        t+=p[i].rt;
+        p[i].rt=0;
     }
-    sort_bt(rq,rear+1);
+
+    if(p[i].rt==0){
+        p[i].ct = t;
+        p[i].tat = p[i].ct-p[i].at;
+        p[i].wt = p[i].tat-p[i].bt;
+        tat+=p[i].tat;
+        wt+=p[i].wt;
+        del();
+    }
+    else{
+        insert(p[i]);
+        del();
+    }
+    sort_rt(rq,rear+1);
+    }
+    pstmp[ind++]=t;
 }
 
 cout<<"Gantt Chart\n |";
@@ -189,13 +218,13 @@ else
 
     for(i=0;i<ind;i++){
 if(tstmp[i]==-1 && i==0){
-	cout<<p[tstmp[i+1]].at;
+	cout<<ps[tstmp[i+1]].at;
 	continue;
 }
 if(tstmp[i]==-1)
-cout<<"      "<<p[tstmp[i+1]].at;
+cout<<"      "<<pstmp[i];
 else
-        cout<<"      "<<p[tstmp[i]].ct;
+        cout<<"      "<<pstmp[i];
     }
     cout<<"\n";
 
@@ -225,6 +254,7 @@ cin>>f;
 cout<<"Enter the burst time of processes:";
 for(i=0;i<n;i++){
 cin>>p[i].bt;
+p[i].rt=p[i].bt;
 p[i].no=i+1;
 
 }

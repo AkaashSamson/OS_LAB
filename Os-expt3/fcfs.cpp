@@ -121,17 +121,19 @@ process *p = new process[n];
 cout<<"are the arrival times provided?(1 for yes/ 0 for no):";
 cin>>f;
 
+cout<<"Enter the burst time of process p:";
 for(i=0;i<n;i++){
-cout<<"Enter the burst time of process p"<<i+1<<":";
-cin>>b;
-if(f==1){
-    cout<<"Enter the arrival time of process p"<<i+1<<":";
-    cin>>a;
-}
-                                                                                                                         
-p[i].getval(i+1,b,a);
+cin>>p[i].bt;
+p[i].no=i+1;
 }
 
+if(f==1){
+    cout<<"Enter the arrival time of process p:";
+    for(i=0;i<n;i++){
+    cin>>p[i].at;
+    }
+}
+                                                                                                                         
 // for(i=0;i<n;i++){
 // p[i].display();
 // }
