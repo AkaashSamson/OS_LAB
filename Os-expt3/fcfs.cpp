@@ -20,7 +20,7 @@ public:
     }
 
     void display(){
-        cout<<" P"<<no<<"\t\t\t"<<bt<<"\t\t"<<at<<"\t\t"<<tat<<"\t\t"<<wt<<"\t\t"<<ct<<"\n";
+        cout<<" P"<<no<<"\t\t\t"<<at<<"\t\t"<<bt<<"\t\t"<<ct<<"\t\t"<<tat<<"\t\t"<<wt<<"\n";
     }
 
 };
@@ -43,6 +43,25 @@ for(int i=0; i<n-1; i++){
 		break;
 }
 }
+
+void sort_id(class process *p,int n){
+class process temp;
+int xchange=0;
+for(int i=0; i<n-1; i++){
+	xchange = 0;
+	for(int j=0; j<n-i-1; j++){
+		if(p[j].no > p[j+1].no){
+			temp = p[j];
+			p[j] = p[j+1];
+			p[j+1] = temp;
+			xchange++;
+		}
+	}
+	if(xchange==0)
+		break;
+}
+}
+
 
 
 void fcfs(int n, class process *p){
@@ -100,8 +119,8 @@ else
         tat+=p[i].tat;
         wt+=p[i].wt;
     }
-
-    cout<<"Process \tBurst Time \tArrival Time \tTurnaround Time \tWaiting Time\t CT \n";
+    sort_id(p,n);
+    cout<<"Process \tArrival Time \tBurst Time \tCompletion Time     Turnaround Time   Waiting Time \n";
     for(i=0;i<n;i++){
         p[i].display();
     }
@@ -121,11 +140,29 @@ process *p = new process[n];
 cout<<"are the arrival times provided?(1 for yes/ 0 for no):";
 cin>>f;
 
+<<<<<<< HEAD
 cout<<"Enter the burst time of process p:";
 for(i=0;i<n;i++){
 cin>>p[i].bt;
 p[i].no=i+1;
 }
+=======
+cout<<"Enter the burst time of processes:";
+for(i=0;i<n;i++){
+cin>>p[i].bt;
+p[i].no=i+1;
+
+}
+ cout<<"Enter the arrival time of processes:";
+if(f==1){
+   for(i=0;i<n;i++){
+cin>>p[i].at;
+}
+
+}
+                                                                                                                         
+
+>>>>>>> 003b53c51fade9aec42002de732d5cd95c818e7e
 
 if(f==1){
     cout<<"Enter the arrival time of process p:";

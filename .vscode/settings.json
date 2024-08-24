@@ -1,3 +1,12 @@
 {
+<<<<<<< HEAD
     "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe"
+=======
+    "files.associations": {
+        "iostream": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "span": "cpp"
+    }
+>>>>>>> 003b53c51fade9aec42002de732d5cd95c818e7e
 }
