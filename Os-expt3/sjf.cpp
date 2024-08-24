@@ -141,7 +141,6 @@ for(int i=0; i<n-1; i++){
 // }
 
 void sjf(int n, class process *p){
-<<<<<<< HEAD
 process ps[n];
 for(int i=0;i<n;i++){
     ps[i]=p[i];
@@ -174,35 +173,6 @@ while(!isempty() || ptr<n){
     sort_bt(rq,rear+1);
 }
 
-=======
-sort_process(p,n);
-int i,tat=0,wt=0,t=0,tstmp[100],ind=0,ptr=1;
-insert(p[0]);
-
-while(!isempty() || ptr<n){
-    if(isempty()){
-        insert(p[ptr++]);
-    }
-    i = del().no-1;
-    if(t<p[i].at){
-        tstmp[ind++]=-1;
-        t = p[i].at;
-    }
-    tstmp[ind++]=i; 
-    t += p[i].bt;
-    p[i].ct = t;
-    p[i].tat = p[i].ct-p[i].at;
-    p[i].wt = p[i].tat-p[i].bt;
-    tat+=p[i].tat;
-    wt+=p[i].wt;
-    while(ptr<n && p[ptr].at<=t){
-        insert(p[ptr]);
-        ptr++;
-    }
-    sort_bt(rq,rear+1);
-}
-
->>>>>>> 003b53c51fade9aec42002de732d5cd95c818e7e
 cout<<"Gantt Chart\n |";
 for(i=0;i<ind;i++){
 if(tstmp[i]==-1 && i==0)
