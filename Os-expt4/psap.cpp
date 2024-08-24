@@ -6,7 +6,7 @@ using namespace std;
 class process{
 
 public:
-    int no,bt,at,tat,wt,ct,rt;
+    int no,bt,at,tat,wt,ct,rt,pr;
 
 public:
     process(){
@@ -21,7 +21,7 @@ public:
     }
 
     void display(){
-         cout<<" P"<<no<<"\t\t\t"<<at<<"\t\t"<<bt<<"\t\t"<<ct<<"\t\t"<<tat<<"\t\t"<<wt<<"\n";
+         cout<<" P"<<no<<"\t\t\t"<<at<<"\t\t"<<bt<<"\t\t"<<pr<<"\t\t"<<ct<<"\t\t"<<tat<<"\t\t"<<wt<<"\n";
     }
 
 };
@@ -103,13 +103,13 @@ for(int i=0; i<n-1; i++){
 }
 }
 
-void sort_rt(class process *p, int m){
+void sort_pr(class process *p, int m){
 class process temp;
 int xchange=0,n=m-front;
 for(int i=0; i<n-1; i++){
 	xchange = 0;
 	for(int j=front; j<m-i-1; j++){
-		if(p[j].rt > p[j+1].rt){
+		if(p[j].pr > p[j+1].pr){
 			temp = p[j];
 			p[j] = p[j+1];
 			p[j+1] = temp;
@@ -205,7 +205,7 @@ while(!isempty() || ptr<n){
         rq[front] = p[i];
     
     
-    sort_rt(rq,rear+1);
+    sort_pr(rq,rear+1);
     // cout<<"t="<<t<<": ";
     // rqdisplay();
     }
@@ -240,7 +240,7 @@ else
 
     sort_id(p,n);
 
-    cout<<"Process \tArrival Time \tBurst Time \tCompletion Time     Turnaround Time   Waiting Time \n";
+    cout<<"Process \tArrival Time \tBurst Time \tPriority \tCompletion Time     Turnaround Time   Waiting Time \n";
     for(i=0;i<n;i++){
         p[i].display();
     }
@@ -266,14 +266,18 @@ for(i=0;i<n;i++){
 cin>>p[i].bt;
 p[i].rt=p[i].bt;
 p[i].no=i+1;
-
 }
- cout<<"Enter the arrival time of processes:";
+
+cout<<"Enter the priority of processes:";
+for(i=0;i<n;i++){
+cin>>p[i].pr;
+}
+ 
 if(f==1){
+   cout<<"Enter the arrival time of processes:";
    for(i=0;i<n;i++){
 cin>>p[i].at;
 }
-
 }
 
 srtn(n,p);   
