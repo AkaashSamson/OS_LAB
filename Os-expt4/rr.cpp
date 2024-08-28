@@ -1,4 +1,5 @@
 #include<iostream>
+#include<iomanip>
 
 using namespace std;
 
@@ -222,9 +223,9 @@ if(tstmp[i]==-1 && i==0){
 	continue;
 }
 if(tstmp[i]==-1)
-cout<<"      "<<pstmp[i];
+cout<<setw(7)<<pstmp[i];
 else
-        cout<<"      "<<pstmp[i];
+        cout<<setw(7)<<pstmp[i];
     }
     cout<<"\n";
 

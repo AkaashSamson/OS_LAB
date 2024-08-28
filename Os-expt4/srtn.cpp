@@ -1,4 +1,5 @@
 #include<iostream>
+#include<iomanip>
 
 using namespace std;
 
@@ -212,6 +213,7 @@ while(!isempty() || ptr<n){
     pstmp[ind++]=t;
 }
 
+
 cout<<"Gantt Chart\n |";
 for(i=0;i<ind;i++){
 if(tstmp[i]==-1 && i==0)
@@ -232,9 +234,9 @@ if(tstmp[i]==-1 && i==0){
 	continue;
 }
 if(tstmp[i]==-1)
-cout<<"      "<<pstmp[i];
+cout<<setw(7)<<pstmp[i];
 else
-        cout<<"      "<<pstmp[i];
+        cout<<setw(7)<<pstmp[i];
     }
     cout<<"\n";
 
