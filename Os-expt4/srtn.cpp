@@ -116,7 +116,6 @@ for(int i=0; i<n-1; i++){
 			p[j+1] = temp;
 			xchange++;
 		}
-        rqdisplay();
 	}
 
 	if(xchange==0)

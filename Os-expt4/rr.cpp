@@ -75,13 +75,12 @@ else{
 
 }
 void rqdisplay(){
-
 int i;
 if(isempty())
     cout<<"Queue is empty\n";
 else{
     for(i=front;i!=rear+1;i=(i+1)%MAX)
-        cout<<"("<<rq[i].no<<" "<<rq[i].rt<<") ";
+        cout<<"P"<<rq[i].no<<" ";
     cout<<"\n";
 }
 return;
@@ -91,17 +90,17 @@ void sort_process(class process *p, int n){
 class process temp;
 int xchange=0;
 for(int i=0; i<n-1; i++){
-	xchange = 0;
-	for(int j=0; j<n-i-1; j++){
-		if(p[j].at > p[j+1].at){
-			temp = p[j];
-			p[j] = p[j+1];
-			p[j+1] = temp;
-			xchange++;
-		}
-	}
-	if(xchange==0)
-		break;
+xchange = 0;
+for(int j=0; j<n-i-1; j++){
+if(p[j].at > p[j+1].at){
+temp = p[j];
+p[j] = p[j+1];
+p[j+1] = temp;
+xchange++;
+}
+}
+if(xchange==0)
+break;
 }
 }
 
@@ -109,19 +108,19 @@ void sort_rt(class process *p, int m){
 class process temp;
 int xchange=0,n=m-front;
 for(int i=0; i<n-1; i++){
-	xchange = 0;
-	for(int j=front; j<m-i-1; j++){
-		if(p[j].rt > p[j+1].rt){
-			temp = p[j];
-			p[j] = p[j+1];
-			p[j+1] = temp;
-			xchange++;
-		}
+xchange = 0;
+for(int j=front; j<m-i-1; j++){
+if(p[j].rt > p[j+1].rt){
+temp = p[j];
+p[j] = p[j+1];
+p[j+1] = temp;
+xchange++;
+}
         rqdisplay();
-	}
+}
 
-	if(xchange==0)
-		break;
+if(xchange==0)
+break;
 }
 }
 
@@ -129,23 +128,22 @@ void sort_id(class process *p,int n){
 class process temp;
 int xchange=0;
 for(int i=0; i<n-1; i++){
-	xchange = 0;
-	for(int j=0; j<n-i-1; j++){
+xchange = 0;
+for(int j=0; j<n-i-1; j++){
 
-		if(p[j].no > p[j+1].no){
-			temp = p[j];
-			p[j] = p[j+1];
-			p[j+1] = temp;
-			xchange++;
-		}
-	}
-	if(xchange==0)
-		break;
+if(p[j].no > p[j+1].no){
+temp = p[j];
+p[j] = p[j+1];
+p[j+1] = temp;
+xchange++;
+}
+}
+if(xchange==0)
+break;
 }
 }
 
 //display function for rq
-
 
 void rr(int n, class process *p,float ts){
 process ps[n];
@@ -153,9 +151,12 @@ for(int i=0;i<n;i++){
     ps[i]=p[i];
 }
 sort_process(ps,n);
-
+cout<<"\n";
 int i,tat=0,wt=0,t=0,tstmp[100],ind=0,ptr=1,pstmp[100];
 insert(ps[0]);
+
+cout<<"Ready Queue: ";
+    rqdisplay();
 
 while(!isempty() || ptr<n){
     if(isempty()){
@@ -184,7 +185,7 @@ while(!isempty() || ptr<n){
     while(ptr<n && ps[ptr].at<=t){
              insert(ps[ptr]);
              ptr++;
-            } 
+            }
 
     if(p[i].rt==0){
         p[i].ct = t;
@@ -200,27 +201,29 @@ while(!isempty() || ptr<n){
     }
 
     pstmp[ind++]=t;
-
+    cout<<"Ready Queue: ";
+    rqdisplay();
+   
 }
 
-cout<<"Gantt Chart\n |";
+cout<<"\nGantt Chart\n |";
 for(i=0;i<ind;i++){
 if(tstmp[i]==-1 && i==0)
-	continue;
+continue;
 if(tstmp[i]==-1)
-	cout<<" idle |";
+cout<<" idle |";
 else
         cout<<"  P"<<p[tstmp[i]].no<<"  |";
     }
 
     cout<<"\n ";
-	if(tstmp[0]!=-1)
-	cout<<"0";
+if(tstmp[0]!=-1)
+cout<<"0";
 
     for(i=0;i<ind;i++){
 if(tstmp[i]==-1 && i==0){
-	cout<<ps[tstmp[i+1]].at;
-	continue;
+cout<<ps[tstmp[i+1]].at;
+continue;
 }
 if(tstmp[i]==-1)
 cout<<setw(7)<<pstmp[i];
@@ -231,7 +234,7 @@ else
 
     sort_id(p,n);
 
-    cout<<"Process \tArrival Time \tBurst Time \tCompletion Time     Turnaround Time   Waiting Time \n";
+    cout<<"\nProcess \tArrival Time \tBurst Time \tCompletion Time     Turnaround Time   Waiting Time \n";
     for(i=0;i<n;i++){
         p[i].display();
     }
@@ -260,27 +263,14 @@ p[i].rt=p[i].bt;
 p[i].no=i+1;
 }
  
-if(f==1){
 cout<<"Enter the arrival time of processes:";
-   for(i=0;i<n;i++){
+for(i=0;i<n;i++){
 cin>>p[i].at;
-}
 }
 
 cout<<"Enter the time slice:";
 cin>>ts;
 
-rr(n,p,ts);   
+rr(n,p,ts);  
 return 0;
 }
-
-
-
-
-
-
-
-
-
-
-

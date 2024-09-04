@@ -146,7 +146,7 @@ for(int i=0; i<n-1; i++){
 //display function for rq
 
 
-void srtn(int n, class process *p){
+void psap(int n, class process *p){
 process ps[n];
 for(int i=0;i<n;i++){
     ps[i]=p[i];
@@ -281,7 +281,7 @@ cin>>p[i].at;
 }
 }
 
-srtn(n,p);   
+psap(n,p);   
 return 0;
 }
 
