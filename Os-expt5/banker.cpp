@@ -105,28 +105,75 @@ void displaymat(int mat[MAX][MAX], int rows, int cols)
     }
 }
 
-bool request_resources(int process_number, int request[])
+void allocate_resources(int process_number, int request[])
 {
-    for (int i = 0; i < m; i++)
-    {
-        if (request[i] > need[process_number][i])
-        {
-            cout << "Error: Process has exceeded its maximum claim.\n";
-            return false;
-        }
-        if (request[i] > avail[i])
-        {
-            cout << "Error: Resources are not available.\n";
-            return false;
-        }
-    }
-
     for (int i = 0; i < m; i++)
     {
         avail[i] -= request[i];
         alloc[process_number][i] += request[i];
         need[process_number][i] -= request[i];
     }
+    // cout << "When Resources allocated.\n";
+    // display_table();
+}
+
+void deallocate_resources(int process_number, int request[])
+{
+    for (int i = 0; i < m; i++)
+    {
+        avail[i] += request[i];
+        alloc[process_number][i] -= request[i];
+        need[process_number][i] += request[i];
+    }
+    // cout << "State Restored.\n";
+    // display_table();
+}
+
+bool request_resources(int process_number, int request[])
+{
+    int avl_emp = 1;
+    allocate_resources(process_number, request);
+    cout << "When Resources allocated.\n";
+    display_table();
+    cout << "\n";
+    deallocate_resources(process_number, request);
+
+    cout << "Checking if request can be granted...\n";
+    for (int i = 0; i < m; i++)
+    {
+        if (request[i] > need[process_number][i])
+        {
+            cout << "Error: Process has exceeded its maximum claim.\n";
+            // deallocate_resources(process_number, request);
+            cout << "State Restored.\n";
+            display_table();
+            return false;
+        }
+        if (request[i] > avail[i])
+        {
+            cout << "Error: Resources are not available.\n";
+            // deallocate_resources(process_number, request);
+            cout << "State Restored.\n";
+            display_table();
+            return false;
+        }
+
+        if (avail[i] - request[i] > 0)
+        {
+            avl_emp = 0;
+        }
+    }
+
+    if (avl_emp)
+    {
+        cout << "Error: Resources are not available.\n";
+        // deallocate_resources(process_number, request);
+        cout << "State Restored.\n";
+        display_table();
+        return false;
+    }
+
+    allocate_resources(process_number, request);
 
     if (safety())
     {
@@ -135,13 +182,11 @@ bool request_resources(int process_number, int request[])
     }
     else
     {
-        for (int i = 0; i < m; i++)
-        {
-            avail[i] += request[i];
-            alloc[process_number][i] -= request[i];
-            need[process_number][i] += request[i];
-        }
+
         cout << "Request cannot be granted.\n";
+        deallocate_resources(process_number, request);
+        cout << "State Restored.\n";
+        display_table();
         return false;
     }
 }
