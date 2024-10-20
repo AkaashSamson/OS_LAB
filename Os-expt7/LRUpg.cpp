@@ -50,7 +50,7 @@ int isfull()
 
 int LRU()
 {
-    int min = 0, sec_min;
+    int min = 0, sec_min = 0;
     for (int i = 0; i < f; i++)
     {
         if (que[i].freq < que[min].freq)
@@ -63,7 +63,8 @@ int LRU()
             sec_min = i;
         }
     }
-    que[sec_min].freq--;
+    if (isfull())
+        que[sec_min].freq--;
     return min;
 }
 
@@ -75,8 +76,13 @@ void enque(frame item)
     //     return;
     // }
     if (in == -1)
+    {
         in = 0;
-    out = LRU();
+        out = 0;
+    }
+    else
+        out = LRU();
+    cout << "LRU: " << out << endl;
     que[out] = item;
 }
 
