@@ -1,8 +1,10 @@
 #include <iostream>
+#include <string>
 #define MAX 10
 
 using namespace std;
-int mutex = 1, full = 0, empty_sm, n, que[MAX], in = -1, out = -1, x = 0, y;
+int mutex = 1, full = 0, empty_sm, n, in = -1, out = -1, x = 0;
+string que[MAX], y;
 
 // Implement a circular queue
 int isempty()
@@ -19,7 +21,7 @@ int isfull()
     return 0;
 }
 
-void enque(int item)
+void enque(string item)
 {
     if (isfull())
     {
@@ -32,15 +34,16 @@ void enque(int item)
     que[out] = item;
 }
 
-int deque()
+string deque()
 {
-    int item;
+    string item;
     if (isempty())
     {
         cout << "Queue Underflow\n";
-        return -1;
+        return NULL;
     }
     item = que[in];
+    que[in] = " ";
     if (in == out)
     {
         in = -1;
@@ -56,29 +59,19 @@ int deque()
 void display_que()
 {
     int i;
-    if (isempty())
+    for (i = 0; i < n; i++)
     {
-        cout << "Queue is empty_sm\n";
-        return;
+        cout << "[" << que[i] << "] ";
     }
-    cout << "Queue elements are:\n";
-    if (in <= out)
-    {
-        for (i = in; i <= out; i++)
-            cout << que[i] << " ";
-    }
-    else
-    {
-        for (i = in; i < n; i++)
-            cout << que[i] << " ";
-        for (i = 0; i <= out; i++)
-            cout << que[i] << " ";
-    }
+
     cout << endl;
+    cout << "In = " << out << " Out = " << in << " Size = " << n << endl;
 }
 
 int wait(int s)
 {
+    while (s < 0)
+        ;
     return --s;
 }
 
@@ -89,11 +82,15 @@ int signal(int s)
 
 void producer()
 {
+    string data;
     mutex = wait(mutex);
     full = signal(full);
     empty_sm = wait(empty_sm);
-    enque(++x);
-    cout << "Producer produces the item " << x << endl;
+    // enque(++x);
+    cout << "Enter the item to be produced: ";
+    cin >> data;
+    enque(data);
+    cout << "Producer produces the item '" << data << "' \n";
     mutex = signal(mutex);
 }
 
@@ -103,7 +100,7 @@ void consumer()
     full = wait(full);
     empty_sm = signal(empty_sm);
     y = deque();
-    cout << "Consumer consumes the item " << y << endl;
+    cout << "Consumer consumes the item '" << y << "' \n";
     mutex = signal(mutex);
 }
 
@@ -123,7 +120,9 @@ int main()
         {
         case 1:
             if ((mutex == 1) && (empty_sm != 0))
+            {
                 producer();
+            }
             else
                 cout << "Buffer is full\n";
             break;
@@ -131,7 +130,7 @@ int main()
             if ((mutex == 1) && (full != 0))
                 consumer();
             else
-                cout << "Buffer is empty_sm\n";
+                cout << "Buffer is empty\n";
             break;
         case 3:
             display_que();
