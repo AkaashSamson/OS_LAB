@@ -1,44 +1,23 @@
-// To implement LRU page replacement algorithm
 #include <iostream>
 #define MAX 50
-using namespace std;
-int pgs[MAX], n, f, in = -1, out = -1;
 
-class frame
+using namespace std;
+
+int pgs[MAX], n, f;
+
+class Frame
 {
 public:
     int data;
     int freq;
 
-public:
-    frame()
-    {
-        data = -1;
-        freq = 0;
-    }
-    frame(int d)
-    {
-        data = d;
-        freq = 1;
-    }
-
-    frame(const frame &f)
-    {
-        data = f.data;
-        freq = f.freq;
-    }
+    Frame() : data(-1), freq(0) {}
+    Frame(int d, int fr) : data(d), freq(fr) {}
 };
 
-class frame que[MAX];
+Frame que[MAX];
 
-int isempty()
-{
-    if (in == -1)
-        return 1;
-    return 0;
-}
-
-int isfull()
+int isFull()
 {
     for (int i = 0; i < f; i++)
     {
@@ -48,68 +27,41 @@ int isfull()
     return 1;
 }
 
-int LRU()
+int findLRU()
 {
-    int min = 0, sec_min = 0;
-    for (int i = 0; i < f; i++)
+    int min = 0;
+    for (int i = 1; i < f; i++)
     {
         if (que[i].freq < que[min].freq)
         {
             min = i;
-            sec_min = min;
-        }
-        else if (que[i].freq < que[sec_min].freq)
-        {
-            sec_min = i;
         }
     }
-    if (isfull())
-        que[sec_min].freq--;
     return min;
 }
 
-void enque(frame item)
+void updateLRUOrder(int ind)
 {
-    // if (isfull())
-    // {
-    //     cout << "Queue Overflow\n";
-    //     return;
-    // }
-    if (in == -1)
+    for (int i = 0; i < f; i++)
     {
-        in = 0;
-        out = 0;
+        if (i != ind)
+        {
+            que[i].freq--;
+        }
+        else
+        {
+            que[i].freq = f;
+        }
     }
-    else
-        out = LRU();
-    cout << "LRU: " << out << endl;
-    que[out] = item;
 }
 
-frame deque()
+void enqueue(Frame item)
 {
-    frame item;
-    // if (isempty())
-    // {
-    //     cout << "Queue Underflow\n";
-    //     return 0;
-    // }
-    in = LRU();
-    item = que[in];
-    que[in] = frame();
-    // if (in == out)
-    // {
-    //     in = -1;
-    //     out = -1;
-    // }
-    // else
-    // {
-    //     in = (in + 1) % f;
-    // }
-    return item;
+    int pos = findLRU();
+    que[pos] = item;
 }
 
-int ispagehit(int pg)
+int isPageHit(int pg)
 {
     for (int i = 0; i < f; i++)
     {
@@ -119,18 +71,42 @@ int ispagehit(int pg)
     return -1;
 }
 
-void display_que()
+void displayQueue()
 {
-    int i;
-    for (i = 0; i < f; i++)
+    for (int i = 0; i < f; i++)
     {
         if (que[i].data == -1)
             cout << "[ ] ";
         else
             cout << "[" << que[i].data << "] ";
     }
+    cout << endl;
+}
 
-    cout << " ";
+void processPages()
+{
+    int faults = 0, ind;
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Page " << pgs[i] << " :";
+        ind = isPageHit(pgs[i]);
+        if (ind == -1)
+        {
+            if (isFull())
+            {
+                int lruIndex = findLRU();
+                que[lruIndex].data = -1;
+            }
+            enqueue(Frame(pgs[i], f));
+            faults++;
+        }
+        else
+        {
+            updateLRUOrder(ind);
+        }
+        displayQueue();
+    }
+    cout << "Number of page faults: " << faults << endl;
 }
 
 int main()
@@ -146,34 +122,10 @@ int main()
     }
     for (int i = 0; i < f; i++)
     {
-        que[i] = frame();
+        que[i] = Frame(-1, i);
     }
 
-    int faults = 0, ind;
-    for (int i = 0; i < n; i++)
-    {
-        cout << "Page " << pgs[i] << " :";
-        ind = ispagehit(pgs[i]);
-        if (ind == -1)
-        {
-            if (isfull())
-            {
-                deque();
-            }
-            enque(frame(pgs[i]));
-            faults++;
-            display_que();
-            cout << "Page fault\n";
-        }
-        else
-        {
-            que[ind].freq++;
-            display_que();
-            cout << "Page hit\n";
-            // cout << "No page fault\n";
-        }
-    }
+    processPages();
 
-    cout << "Number of page faults: " << faults << endl;
     return 0;
 }
