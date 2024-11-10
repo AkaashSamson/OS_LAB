@@ -58,6 +58,8 @@ void enqueue(Frame item)
 {
     int pos = findOptimal();
     que[pos] = item;
+    if (que[pos].nxt_ocr > n)
+        que[pos].nxt_ocr--;
 }
 
 int isPageHit(int pg)
@@ -79,7 +81,6 @@ void displayQueue()
         else
             cout << "[" << que[i].data << "] ";
     }
-    cout << endl;
 }
 
 void processPages()
@@ -91,19 +92,17 @@ void processPages()
         ind = isPageHit(pgs[i]);
         if (ind == -1)
         {
-            if (isFull())
-            {
-                int lruIndex = findOptimal();
-                que[lruIndex].data = -1;
-            }
             enqueue(Frame(pgs[i], get_nxt_ocr(i)));
             faults++;
+            displayQueue();
+            cout << "Page Fault\n";
         }
         else
         {
-            que[ind].nxt_ocr = get_nxt_ocr(ind);
+            que[ind].nxt_ocr = get_nxt_ocr(i);
+            displayQueue();
+            cout << "Page Hit\n";
         }
-        displayQueue();
     }
     cout << "Number of page faults: " << faults << endl;
 }

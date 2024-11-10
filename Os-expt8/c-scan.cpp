@@ -101,6 +101,8 @@ int c_scan(const int req_seq[], int n, int current_head, char direction, int tra
 int main()
 {
     int index;
+    cout << "Enter the Block size: ";
+    cin >> ubound;
     cout << "Enter the number of requests: ";
     cin >> n;
     cout << "Enter the request sequence: ";
@@ -108,8 +110,6 @@ int main()
     {
         cin >> req_seq[i];
     }
-    cout << "Enter the upper bound of the disk: ";
-    cin >> ubound;
 
     cout << "Enter the initial head position: ";
     cin >> current_head;

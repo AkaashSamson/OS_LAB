@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int n, req_seq[MAX], current_head, traversal[MAX + 1];
+int n, req_seq[MAX], current_head, traversal[MAX + 1], ub;
 char direction;
 
 void sort(int arr[], int size)
@@ -90,6 +90,8 @@ int look(const int req_seq[], int n, int current_head, char direction, int trave
 int main()
 {
     int index;
+    cout << "Enter the Block size: ";
+    cin >> ub;
     cout << "Enter the number of requests: ";
     cin >> n;
     cout << "Enter the request sequence: ";

@@ -42,15 +42,15 @@ int findLRU()
 
 void updateLRUOrder(int ind)
 {
-    for (int i = 0; i < f; i++)
+    if (que[ind].freq != f)
     {
-        if (i != ind)
+        for (int i = 0; i < f; i++)
         {
-            que[i].freq--;
-        }
-        else
-        {
-            que[i].freq = f;
+            if (i != ind && que[i].freq > 0)
+                que[i].freq--;
+
+            else if (i == ind)
+                que[i].freq = f;
         }
     }
 }
@@ -59,6 +59,7 @@ void enqueue(Frame item)
 {
     int pos = findLRU();
     que[pos] = item;
+    updateLRUOrder(pos);
 }
 
 int isPageHit(int pg)
@@ -79,8 +80,8 @@ void displayQueue()
             cout << "[ ] ";
         else
             cout << "[" << que[i].data << "] ";
+        // cout << "[" << que[i].data << ", " << que[i].freq << "] ";
     }
-    cout << endl;
 }
 
 void processPages()
@@ -92,19 +93,17 @@ void processPages()
         ind = isPageHit(pgs[i]);
         if (ind == -1)
         {
-            if (isFull())
-            {
-                int lruIndex = findLRU();
-                que[lruIndex].data = -1;
-            }
-            enqueue(Frame(pgs[i], f));
+            enqueue(Frame(pgs[i], 0));
             faults++;
+            displayQueue();
+            cout << "Page Fault\n";
         }
         else
         {
             updateLRUOrder(ind);
+            displayQueue();
+            cout << "Page Hit\n";
         }
-        displayQueue();
     }
     cout << "Number of page faults: " << faults << endl;
 }

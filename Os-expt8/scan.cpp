@@ -81,9 +81,6 @@ int scan(const int req_seq[], int n, int current_head, char direction, int trave
         current_head = lbound;
         traversal[index++] = current_head;
         total_head_movement += move_right(right, right_size, current_head, traversal, index);
-        total_head_movement += abs(current_head - ubound); // Move to the end of the disk
-        current_head = ubound;
-        traversal[index++] = current_head;
     }
     else if (direction == 'R' || direction == 'r')
     {
@@ -92,9 +89,6 @@ int scan(const int req_seq[], int n, int current_head, char direction, int trave
         current_head = ubound;
         traversal[index++] = current_head;
         total_head_movement += move_left(left, left_size, current_head, traversal, index);
-        total_head_movement += abs(current_head - lbound); // Move to the start of the disk
-        current_head = lbound;
-        traversal[index++] = current_head;
     }
 
     return total_head_movement;
@@ -103,6 +97,9 @@ int scan(const int req_seq[], int n, int current_head, char direction, int trave
 int main()
 {
     int index;
+    cout << "Enter the block size: ";
+    cin >> ubound;
+
     cout << "Enter the number of requests: ";
     cin >> n;
     cout << "Enter the request sequence: ";
@@ -110,8 +107,6 @@ int main()
     {
         cin >> req_seq[i];
     }
-    cout << "Enter the upper bound of the disk: ";
-    cin >> ubound;
 
     cout << "Enter the initial head position: ";
     cin >> current_head;

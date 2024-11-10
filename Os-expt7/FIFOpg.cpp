@@ -1,5 +1,3 @@
-// FIFO page replacement
-
 #include <iostream>
 #define MAX 50
 using namespace std;

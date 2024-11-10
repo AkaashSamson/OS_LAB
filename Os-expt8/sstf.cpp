@@ -4,27 +4,21 @@
 
 using namespace std;
 
-int n, req_seq[MAX], current_head, traversal[MAX + 1];
+int n, req_seq[MAX], current_head, traversal[MAX + 1], ub;
 bool visited[MAX];
 
 int find_nearest_request(int current_head, const int req_seq[], bool visited[], int n)
 {
     int min_distance = INT_MAX;
     int nearest_index = -1;
-
     for (int i = 0; i < n; ++i)
     {
-        if (!visited[i])
+        if (!visited[i] && abs(req_seq[i] - current_head) < min_distance)
         {
-            int distance = abs(req_seq[i] - current_head);
-            if (distance < min_distance)
-            {
-                min_distance = distance;
-                nearest_index = i;
-            }
+            min_distance = abs(req_seq[i] - current_head);
+            nearest_index = i;
         }
     }
-
     return nearest_index;
 }
 
@@ -47,13 +41,14 @@ int sstf(const int req_seq[], int n, int current_head, int traversal[])
 
 int main()
 {
+    cout << "Enter block size: ";
+    cin >> ub;
     cout << "Enter number of requests: ";
     cin >> n;
     cout << "Enter request sequence: ";
     for (int i = 0; i < n; ++i)
     {
         cin >> req_seq[i];
-        visited[i] = false;
     }
     cout << "Enter current head position: ";
     cin >> current_head;
@@ -62,7 +57,11 @@ int main()
 
     cout << "Total head movement: " << total_movement << endl;
     cout << "Traversal sequence: ";
-    for (int i = 0; i < n; ++i)
+    if (traversal[0] != traversal[1])
+    {
+        cout << current_head << "->";
+    }
+    for (int i = 1; i < n; ++i)
     {
         cout << traversal[i] << "->";
     }

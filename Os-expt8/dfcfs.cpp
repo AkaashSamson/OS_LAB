@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int n, req_seq[MAX], current_head, traversal[MAX + 1];
+int n, req_seq[MAX], current_head, traversal[MAX + 1], ub;
 
 int fcfs(const int req_seq[], int n, int current_head, int traversal[])
 {
@@ -23,6 +23,8 @@ int fcfs(const int req_seq[], int n, int current_head, int traversal[])
 
 int main()
 {
+    cout << "Enter block size: ";
+    cin >> ub;
     cout << "Enter number of requests: ";
     cin >> n;
     cout << "Enter request sequence: ";
